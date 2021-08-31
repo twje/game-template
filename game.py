@@ -9,7 +9,7 @@ import storyboard_event_factory as sb_event_factory
 
 class Game(Scene):
     def __init__(self, context):
-        super().__init__()        
+        super().__init__()
         self.stack = StateStack()
         self.context = context
         self.renderer = context.renderer
@@ -50,13 +50,9 @@ class Game(Scene):
             sb_event_factory.move_npc(
                 "scene_2",
                 "npc",
-                [
-                    constants.Direction.LEFT,
-                    constants.Direction.LEFT,
-                    constants.Direction.TOP,
-                    constants.Direction.TOP,
-                ]
+                ["up", "left", "left", "up"]
             ),
+            sb_event_factory.wait(2),
             sb_event_factory.hand_off_scene(
                 Storyboard.HAND_IN_SCENE
             )

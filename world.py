@@ -1,17 +1,17 @@
 from renderer_strategy import WindowRendererStratgey
 from map_registry import map_registry
-from boid import Boid
 from state import State
+from entity import create_entity_by_id
 
 
 class World(State):
     def __init__(self, context, stack, map):
         super().__init__()
         self.context = context
-        self.stack = stack        
+        self.stack = stack
         self.map = map
         self.hide_player = False
-        self.player = Boid(3, 3, 0) 
+        self.player = create_entity_by_id("player", 3, 3)
 
     def enter(self):
         self.set_render_units()
@@ -32,11 +32,12 @@ class World(State):
         )
 
     def handle_event(self, event):
-        self.player.handle_event(event)
+        self.player.controller.handle_input(event)
 
     def update(self, dt):
+        self.player.controller.update(dt)
         for npc in self.map.npcs:
-            npc.update(dt)
+            npc.controller.update(dt)
 
         return False
 

@@ -63,9 +63,9 @@ def hand_off_scene(scene_id):
 
 def add_npc(scene_id, npc_id, pos_x, pos_y):
     def create(storyboard):
-        from boid import Boid
+        from entity import create_entity_by_id
 
-        npc = Boid(pos_x, pos_y, 0)
+        npc = create_entity_by_id(npc_id, pos_x, pos_y)
         state = get_state(storyboard, scene_id)
         state.map.add_npc(npc_id, npc)
         return events.NullEvent()
@@ -75,8 +75,6 @@ def add_npc(scene_id, npc_id, pos_x, pos_y):
 
 def move_npc(scene_id, npc_id, path):
     def create(storyboard):
-        from boid import Boid
-
         state = get_state(storyboard, scene_id)
         map = state.map
         npc = map.get_npc(npc_id)

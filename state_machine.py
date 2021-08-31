@@ -9,14 +9,11 @@ class StateMachine:
     def set_state(self, state_id, state):
         self.states[state_id] = state
 
-    def set_states(self, states):
-        self.states = states
-
-    def change(self, state_name, enter_params={}):
-        if state_name not in self.states:
-            raise Exception(f"state {state_name} must exist")
+    def change(self, state_id, enter_params={}):
+        if state_id not in self.states:
+            raise Exception(f"state {state_id} must exist")
         self.current.exit()
-        self.current = self.states[state_name]()
+        self.current = self.states[state_id]()
         self.current.enter(enter_params)
 
     def update(self, dt):
@@ -26,4 +23,4 @@ class StateMachine:
         self.current.render(renderer)
 
     def handle_input(self, event):
-        self.current.handle_input(event)
+        self.current.handle_event(event)
