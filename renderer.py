@@ -21,8 +21,8 @@ class Renderer:
             self.screen_height()
         )
 
-    def blit_surface(self, surface):
-        self.screen.blit(surface, (0, 0))
+    def blit_surface(self, surface, x_pos, y_pos):
+        self.screen.blit(surface, (x_pos, y_pos))
 
     def draw_rect(self, x_pos, y_pos, width, height, color, outline):
         x_pos, y_pos, width, height = self.strategy.world_cords_to_screen_cords(

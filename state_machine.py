@@ -22,5 +22,5 @@ class StateMachine:
     def render(self, renderer):
         self.current.render(renderer)
 
-    def handle_input(self, event):
+    def handle_event(self, event):
         self.current.handle_event(event)

@@ -2,9 +2,11 @@ from map_registry import map_registry
 from state_stack import StateStack
 from storyboard import Storyboard
 from world import World
+from menu import InGameMenuState
 from scene import Scene
 import constants
 import storyboard_event_factory as sb_event_factory
+import pygame
 
 
 class Game(Scene):
@@ -12,14 +14,18 @@ class Game(Scene):
         super().__init__()
         self.stack = StateStack()
         self.context = context
-        self.renderer = context.renderer
-        self.create_world()
-        self.start_cutscene()
+        self.renderer = context.renderer        
+        self.menu = InGameMenuState(
+            self.stack,
+            self.renderer.screen_width(),
+            self.renderer.screen_height()
+        )        
+        self.world = self.create_world()
+        self.stack.push(self.world)
 
     def create_world(self):
         map = map_registry[constants.MapID.MAP_1]()
-        world = World(self.context, self.stack, map)
-        self.stack.push(world)
+        return World(self.context, self.stack, map)
 
     def start_cutscene(self):
         cutscene = [
@@ -62,6 +68,11 @@ class Game(Scene):
 
     def handle_event(self, event):
         self.stack.handle_event(event)
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                self.stack.push(self.menu)
+            if event.key == pygame.K_2:
+                self.start_cutscene()
 
     def update(self, dt):
         self.stack.update(dt)

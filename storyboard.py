@@ -34,7 +34,7 @@ class Storyboard(State):
             state = self.stack.pop()
             self.push_state(self.HAND_IN_SCENE, state)
 
-    def enter(self):
+    def enter(self, data):
         pass
 
     def exit(self):

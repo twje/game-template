@@ -13,7 +13,7 @@ class World(State):
         self.hide_player = False
         self.player = create_entity_by_id("player", 3, 3)
 
-    def enter(self):
+    def enter(self, data):
         self.set_render_units()
 
     def exit(self):
@@ -32,7 +32,7 @@ class World(State):
         )
 
     def handle_event(self, event):
-        self.player.controller.handle_input(event)
+        self.player.controller.handle_event(event)
 
     def update(self, dt):
         self.player.controller.update(dt)

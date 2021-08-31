@@ -21,7 +21,7 @@ class StateStack:
 
     def push(self, state):
         self.states.append(state)
-        state.enter()
+        state.enter(None)
 
     def pop(self):
         top = self.top()

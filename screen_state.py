@@ -16,7 +16,7 @@ class ScreenState(State):
         self.color[3] = alpha
         self.surface.fill(self.color)
 
-    def enter(self):
+    def enter(self, data):
         pass
 
     def exit(self):
@@ -29,4 +29,4 @@ class ScreenState(State):
         return True
 
     def render(self, renderer):        
-        renderer.blit_surface(self.surface)
+        renderer.blit_surface(self.surface, 0, 0)
