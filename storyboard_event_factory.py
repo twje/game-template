@@ -61,11 +61,11 @@ def hand_off_scene(scene_id):
     return create
 
 
-def add_npc(scene_id, npc_id, pos_x, pos_y):
+def add_npc(scene_id, npc_id, context, pos_x, pos_y):
     def create(storyboard):
         from entity import create_entity_by_id
 
-        npc = create_entity_by_id(npc_id, pos_x, pos_y)
+        npc = create_entity_by_id(npc_id, context, pos_x, pos_y)
         state = get_state(storyboard, scene_id)
         state.map.add_npc(npc_id, npc)
         return events.NullEvent()

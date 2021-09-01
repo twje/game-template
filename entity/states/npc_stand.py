@@ -4,7 +4,7 @@ from state import State
 
 @register_state("npc_stand")
 class NPCStand(State):
-    def __init__(self, entity):
+    def __init__(self, entity, context):
         super().__init__()
 
     def enter(self, data):

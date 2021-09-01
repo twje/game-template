@@ -4,7 +4,7 @@ from state import State
 
 @register_state("follow_path")
 class FollowPath(State):
-    def __init__(self, entity):
+    def __init__(self, entity, context):
         super().__init__()
         self.entity = entity
         self.controller = entity.controller

@@ -14,5 +14,5 @@ entity_defs = {
 }
 
 
-def create_entity_by_id(entity_id, x_pos, y_pos):
-    return Entity(entity_defs[entity_id], x_pos, y_pos)
+def create_entity_by_id(entity_id, context, x_pos, y_pos):
+    return Entity(entity_defs[entity_id], context, x_pos, y_pos)

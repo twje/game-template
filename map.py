@@ -1,12 +1,15 @@
 import colors
 from constants import MapID
 from map_registry import register_map
+from trigger import Trigger
+from actions import action_registry
 
 
 class Map:
     def __init__(self):
         self.npcs = []
         self.npc_by_id = {}
+        self.triggers = {}
 
     def add_npc(self, npc_id, npc):
         self.npcs.append(npc)
@@ -15,11 +18,20 @@ class Map:
     def get_npc(self, npc_id):
         return self.npc_by_id[npc_id]
 
+    def get_index(self, tile_x, tile_y):
+        return tile_x + tile_y * self.map_width
+
     def get_tile(self, tile_x, tile_y):
-        return self.data[tile_x + tile_y * self.map_width]
+        return self.data[self.get_index(tile_x, tile_y)]
 
     def is_obstacle(self, tile_x, tile_y):
         return self.get_tile(tile_x, tile_y) > 0
+
+    def add_trigger(self, tile_x, tile_y, trigger):
+        self.triggers[self.get_index(tile_x, tile_y)] = trigger
+
+    def get_trigger(self, tile_x, tile_y):
+        return self.triggers.get(self.get_index(tile_x, tile_y))
 
     def render(self, renderer, player):
         for tile_y in range(self.map_height):
@@ -34,11 +46,27 @@ class Map:
                     0
                 )
 
+        self.render_debug(renderer)
+
         for npc in self.npcs:
             npc.render(renderer)
 
         if player is not None:
             player.render(renderer)
+
+    def render_debug(self, renderer):
+        for tile_y in range(self.map_height):
+            for tile_x in range(self.map_width):
+                trigger = self.triggers.get(self.get_index(tile_x, tile_y))
+                if trigger is not None:
+                    renderer.draw_rect(
+                        tile_x,
+                        tile_y,
+                        1,
+                        1,
+                        (10, 100, 50, 100),
+                        0
+                    )
 
 
 @register_map(MapID.MAP_1)
@@ -82,6 +110,15 @@ class Map1(Map):
             colors.RED,
             colors.GREEN,
         ]
+        self.add_trigger(10, 10, Trigger(
+            on_enter=action_registry["teleport"](self, 12, 12),
+        ))
+        self.add_trigger(12, 10, Trigger(
+            on_exit=action_registry["teleport"](self, 20, 20),
+        ))
+        self.add_trigger(6, 8, Trigger(
+            on_use=action_registry["teleport"](self, 12, 12),
+        ))
 
 
 @register_map(MapID.MAP_2)

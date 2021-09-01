@@ -22,6 +22,5 @@ class Direction(Enum):
     BUTTOM = auto()
 
 
-MANIFEST_ID = "manifest"
-ENTITY_DEF_ID = "entity_def"
-ENTITY_DEF_FILEPATH = "entity_def.json"
+class MessageID:
+    GET_MAP = auto()

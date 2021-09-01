@@ -1,3 +1,4 @@
+from context import Context
 from map_registry import map_registry
 from state_stack import StateStack
 from storyboard import Storyboard
@@ -14,13 +15,13 @@ class Game(Scene):
         super().__init__()
         self.stack = StateStack()
         self.context = context
-        self.renderer = context.renderer        
+        self.renderer = context.renderer
         self.menu = InGameMenuState(
             self.stack,
             self.renderer.screen_width(),
             self.renderer.screen_height()
-        )        
-        self.world = self.create_world()
+        )
+        self.world = self.create_world()        
         self.stack.push(self.world)
 
     def create_world(self):
@@ -38,6 +39,7 @@ class Game(Scene):
             sb_event_factory.add_npc(
                 None,
                 "npc",
+                self.context,
                 10,
                 15
             ),

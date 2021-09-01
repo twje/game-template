@@ -4,8 +4,8 @@ import colors
 
 
 class Entity:
-    def __init__(self, entity_def, x_pos, y_pos):
-        self.controller = self.create_controller(entity_def)
+    def __init__(self, entity_def, context, x_pos, y_pos):
+        self.controller = self.create_controller(entity_def, context)
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.path = None
@@ -15,23 +15,40 @@ class Entity:
 
         self.controller.change(self.default_state)
 
+    def get_faced_tile_coords(self):
+        x_inc = 0
+        y_inc = 0
+        if self.facing == "left":
+            x_inc = -1
+        elif self.facing == "right":
+            x_inc = 1
+        elif self.facing == "up":
+            y_inc = -1
+        elif self.facing == "down":
+            y_inc = 1
+
+        x = self.x_pos + x_inc
+        y = self.y_pos + y_inc
+
+        return x, y
+
     def set_position(self, x_pos, y_pos):
         self.x_pos = x_pos
         self.y_pos = y_pos
 
-    def create_controller(self, entity_def):
+    def create_controller(self, entity_def, context):
         controller = StateMachine()
         states = entity_def["controller"]
         for state_id in states:
-            factory = self.state_factory(state_id, self)
+            factory = self.state_factory(state_id, self, context)
             controller.set_state(state_id, factory)
 
         return controller
 
-    def state_factory(self, state_id, entity):
+    def state_factory(self, state_id, entity, context):
         def create():
             clazz = state_registry[state_id]
-            return clazz(entity)
+            return clazz(entity, context)
         return create
 
     def follow_path(self, path):

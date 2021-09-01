@@ -5,7 +5,7 @@ import pygame
 
 @register_state("wait")
 class WaitState(State):
-    def __init__(self, entity):
+    def __init__(self, entity, context):
         super().__init__()
         self.controller = entity.controller
 
@@ -16,18 +16,18 @@ class WaitState(State):
         pass
 
     def handle_event(self, event):
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                self.move_left()
-            if event.key == pygame.K_RIGHT:
-                self.move_right()
-            if event.key == pygame.K_UP:
-                self.move_up()
-            if event.key == pygame.K_DOWN:
-                self.move_down()
-
-    def update(self, dt):
         pass
+
+    def update(self, dt):        
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.move_left()
+        if keys[pygame.K_RIGHT]:
+            self.move_right()
+        if keys[pygame.K_UP]:
+            self.move_up()
+        if keys[pygame.K_DOWN]:
+            self.move_down()
 
     def render(self, renderer):
         pass
